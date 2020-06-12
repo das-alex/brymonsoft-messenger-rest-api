@@ -32,8 +32,26 @@ REST api definition:
   }
   ```
 - удалить пользователя:
-  - **DELETE** /users/:id - удалить пользователя, где id - идентификатор удаляемого пользователя
+  - **DELETE** /users/:id
 
 ### **Диалоги:**
 - получить все диалоги пользователя
-  - **GET** /dialogs/byUser/:id 
+  - **GET** /dialogs/byUser/:id
+- открыть диалог/получить все сообщения диалога
+  - **GET** /dialogs/:id - все сообщения по id выбранного диалога
+- создать диалог
+  - **POST** /dialogs
+  ```JSON
+  {
+    "userOne": "userOneId",
+    "userTwo": "userTwoId"
+  }
+  ```
+- удалить диалог
+ - **DELETE** /dialogs/:id
+
+### **Сообщения**
+- получить последнее сообщение для диалога по его id
+  - **GET** /dialogs/:id/lastMessage
+- получить все сообщения для диалога по его id
+  - **GET** /dialogs/:id/messages

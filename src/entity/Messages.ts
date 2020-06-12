@@ -18,10 +18,10 @@ export class Messages {
     @Column()
     timestamp: Date;
 
-    @Column()
+    @Column({default: false})
     delivered: boolean;
 
-    @Column()
+    @Column({default: false})
     seen: boolean;
 
 }

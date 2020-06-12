@@ -13,6 +13,11 @@ import {
     createDialog,
     deleteDialog
 } from "./routes/DialogsRoute";
+import {
+    lastByDialogId,
+    messagesByDialog,
+    pushMessage
+} from "./routes/MessagesRoute";
 
 export const Routes = [
     // Users
@@ -27,6 +32,10 @@ export const Routes = [
     getDialogs,
     getDialogMessages,
     createDialog,
-    deleteDialog
+    deleteDialog,
     // Messages
+    lastByDialogId,
+    messagesByDialog,
+    createDialog,
+    pushMessage
 ];
