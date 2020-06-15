@@ -49,6 +49,13 @@ export const addUser = {
     action: "save"
 };
 
+export const getDialogs = {
+    method: "get",
+    route: "/users/:id/dialogs",
+    controller: UserController,
+    action: "allForUser"
+};
+
 export const deleteUser = {
     method: "delete",
     route: "/users/:id",

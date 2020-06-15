@@ -1,17 +1,24 @@
 import { DialogsController } from "../controller/DialogsController";
 
-export const getDialogs = {
-    method: "get",
-    route: "/dialogs/byUser/:id",
-    controller: DialogsController,
-    action: "allForUser"
-};
-
 export const getDialogMessages = {
     method: "get",
     route: "/dialogs/:id",
     controller: DialogsController,
     action: "one"
+};
+
+export const lastMessageByDialogId = {
+    method: "get",
+    route: "/dialogs/:id/lastMessage",
+    controller: DialogsController,
+    action: "lastByDialogId"
+};
+
+export const pushMessage = {
+    method: "post",
+    route: "/dialogs/:id",
+    controller: DialogsController,
+    action: "pushMessage"
 };
 
 export const createDialog = {

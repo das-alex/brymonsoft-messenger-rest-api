@@ -1,32 +1,15 @@
 import { MessagesController } from "../controller/MessagesController";
 
-// need to be work on it
-export const lastByDialogId = {
-    method: "get",
-    route: "/dialogs/:id/lastMessage",
-    controller: MessagesController,
-    action: "lastByDialogId"
-};
-
-// need to be work on it
-export const messagesByDialog = {
-    method: "get",
-    route: "/dialogs/:id/messages",
-    controller: MessagesController,
-    action: "messagesByDialog"
-};
-
-// need to be work on it
-export const pushMessage = {
+export const update = {
     method: "post",
-    route: "/dialogs/:id/message",
+    route: "/messages/:id",
     controller: MessagesController,
-    action: "pushMessage"
+    action: "update"
 };
 
-export const deleteDialog = {
+export const remove = {
     method: "delete",
-    route: "/dialogs/:id",
+    route: "/messages/:id",
     controller: MessagesController,
     action: "remove"
 };

@@ -12,19 +12,6 @@ export class DialogsController {
     private partofRepository = getRepository(Partof);
     private messagesRepository = getRepository(Messages);
 
-    // get user's dialogs
-    async allForUser(request: Request, response: Response, next: NextFunction) {
-        const user_id = request.params.id;
-        return getConnection().createQueryBuilder()
-            // add last message and time
-            .select("usr.name as companion_name, usr.picture as picture, message, timestamp, partof.dialog_id")
-            .from(Partof, "partof")
-            .innerJoin("messages", "msg", "msg.dialog_id = partof.dialog_id and msg.user_id <> partof.user_id")
-            .innerJoin("user", "usr", "usr.id = msg.user_id")
-            .where("partof.user_id = :userId", {userId: user_id})
-            .execute();
-    }
-
     // open full dialog
     async one(request: Request, response: Response, next: NextFunction) {
         const dialog_id = request.params.id;
@@ -32,6 +19,27 @@ export class DialogsController {
             .innerJoinAndSelect(User, "usr", "usr.id = msg.user_id")
             .where("msg.dialog_id = :dialogId", {dialogId: dialog_id})
             .execute();
+    }
+
+    // get last message for dialog
+    async lastByDialogId(request: Request, response: Response, next: NextFunction) {
+        return this.messagesRepository.findOne({
+            dialog_id: request.params.id
+        }, {
+            order: {
+                id: "DESC"
+            }
+        });
+    }
+
+    // add new message
+    async pushMessage(request: Request, response: Response, next: NextFunction) {
+        return this.messagesRepository.save({
+            message: request.body.message,
+            user_id: request.body.userId,
+            dialog_id: request.params.id,
+            timestamp: new Date()
+        });
     }
 
     // create new dialog

@@ -2,22 +2,20 @@ import {
     getAllUsers,
     getUser,
     addUser,
+    getDialogs,
     deleteUser,
     getUserByName,
     getAllUsersByName,
     getAllUsersByPhone
 } from "./routes/UserRoute";
 import {
-    getDialogs,
     getDialogMessages,
     createDialog,
-    deleteDialog
+    deleteDialog,
+    pushMessage,
+    lastMessageByDialogId
 } from "./routes/DialogsRoute";
-import {
-    lastByDialogId,
-    messagesByDialog,
-    pushMessage
-} from "./routes/MessagesRoute";
+import { update, remove } from "./routes/MessagesRoute";
 
 export const Routes = [
     // Users
@@ -27,15 +25,15 @@ export const Routes = [
     getUser,
     getUserByName,
     addUser,
+    getDialogs,
     deleteUser,
     // Dialogs
-    getDialogs,
     getDialogMessages,
     createDialog,
     deleteDialog,
+    pushMessage,
+    lastMessageByDialogId,
     // Messages
-    lastByDialogId,
-    messagesByDialog,
-    createDialog,
-    pushMessage
+    update,
+    remove
 ];

@@ -1,11 +1,15 @@
-import {getRepository, Like} from "typeorm";
+import {getRepository, Like, getConnection, Raw} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 
-import {User} from "../entity/User";
+import { User } from "../entity/User";
+import { Partof } from "../entity/Partof";
+import { Messages } from "../entity/Messages";
 
 export class UserController {
 
     private userRepository = getRepository(User);
+    private partofRepository = getRepository(Partof);
+    private messagesRepository = getRepository(Messages);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.userRepository.find();
@@ -44,6 +48,21 @@ export class UserController {
 
     async save(request: Request, response: Response, next: NextFunction) {
         return this.userRepository.save(request.body);
+    }
+
+    // get user's dialogs
+    async allForUser(request: Request, response: Response, next: NextFunction) {
+        const user_id = request.params.id;
+        const usersDialogs = await getConnection().createQueryBuilder()
+            .select("partof.dialog_id, usr.name as companion_name, usr.picture as picture, message, timestamp")
+            .from(Partof, "partof")
+            .innerJoin("partof", "prt", "prt.dialog_id = partof.dialog_id and prt.user_id <> partof.user_id")
+            .innerJoin("user", "usr", "usr.id = prt.user_id")
+            .innerJoin("messages", "msg", "msg.id = (select id from messages where dialog_id=partof.dialog_id order by id desc limit 1)")
+            .where("partof.user_id = :userId", {userId: user_id})
+            .groupBy("partof.dialog_id, companion_name, picture, message, timestamp")
+            .execute();
+        return usersDialogs;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
