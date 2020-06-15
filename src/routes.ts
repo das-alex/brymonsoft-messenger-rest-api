@@ -2,6 +2,7 @@ import {
     getAllUsers,
     getUser,
     addUser,
+    authUser,
     getDialogs,
     deleteUser,
     getUserByName,
@@ -25,6 +26,7 @@ export const Routes = [
     getUser,
     getUserByName,
     addUser,
+    authUser,
     getDialogs,
     deleteUser,
     // Dialogs
