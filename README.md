@@ -2,7 +2,7 @@
 
 Steps to run this project:
 1. Setup database settings inside `docker-compose.yml` file
-2. Run `docker-compose up -d` for database container
+2. Run `docker-compose up -d` for database container  
 
 1. Run `npm i` command
 2. Setup database settings inside `ormconfig.json` file
