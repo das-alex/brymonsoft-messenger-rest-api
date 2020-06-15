@@ -5,13 +5,10 @@ import * as bcrypt from 'bcrypt';
 
 import { User } from "../entity/User";
 import { Partof } from "../entity/Partof";
-import { Messages } from "../entity/Messages";
 
 export class UserController {
 
     private userRepository = getRepository(User);
-    private partofRepository = getRepository(Partof);
-    private messagesRepository = getRepository(Messages);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.userRepository.find();
@@ -41,23 +38,47 @@ export class UserController {
     }
 
     async auth(request: Request, response: Response, next: NextFunction) {
-        // check user's password here
-        return this.userRepository.findOne({
-            name: request.params.name,
-            password: request.params.password
+        const error = {message: "We do not have that user, man"};
+        const user = await this.userRepository.findOne({
+            name: request.body.name,
         });
+        if (user === undefined) {
+            return error;
+        }
+        const isMatch = await bcrypt.compare(request.body.password, user.password);
+        if (isMatch === false) {
+            return error;
+        }
+        return {
+            id: user.id,
+            name: user.name,
+            phone: user.phone,
+            picture: user.picture,
+            token: jwt.sign({
+                id: user.id,
+                name: user.name,
+                phone: user.phone,
+            }, "secretkey", {expiresIn: "1h"})
+        }
+
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
         const isExistUser = await this.userRepository.findOne({
             name: request.body.name
         });
-        if (isExistUser === undefined) {
-            return this.userRepository.save(request.body);
+        if (isExistUser !== undefined) {
+            return {
+                message: "That user is already exist"
+            };
         }
-        return {
-            message: "That user is already exist"
-        };
+        // const hash = bcrypt.hashSync(request.body.password, 10);
+        // return this.userRepository.save({
+        //     name: request.body.name,
+        //     phone: request.body.phone,
+        //     picture: request.body.picture,
+        //     password: hash
+        // });
     }
 
     // get user's dialogs

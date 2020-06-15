@@ -5,7 +5,7 @@ export class AuthMiddleware {
     async check(request: Request, response: Response, next: NextFunction) {
         try {
             const {methods, path} = request.route;
-            if (path === "/users/auth" && methods.get) {
+            if (path === "/users/auth" && methods.post) {
                 next();
             } else if (path === "/users" && methods.post) {
                 next();
