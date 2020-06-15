@@ -6,16 +6,19 @@ import {Request, Response} from "express";
 
 import {Routes} from "./routes";
 
+import {AuthMiddleware} from "./middleware/AuthMiddleware";
+
 process.title = "messangerApi";
 
 createConnection().then(async connection => {
 
     const app = express();
     app.use(bodyParser.json());
+    const checkUser = new AuthMiddleware();
 
     // register routes
     Routes.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+        (app as any)[route.method](route.route, checkUser.check, (req: Request, res: Response, next: Function) => {
             const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
                 result.then(result => {

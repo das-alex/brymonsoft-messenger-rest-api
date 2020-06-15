@@ -1,5 +1,7 @@
 import {getRepository, Like, getConnection, Raw} from "typeorm";
 import {NextFunction, Request, Response} from "express";
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 
 import { User } from "../entity/User";
 import { Partof } from "../entity/Partof";
@@ -47,7 +49,15 @@ export class UserController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body);
+        const isExistUser = await this.userRepository.findOne({
+            name: request.body.name
+        });
+        if (isExistUser === undefined) {
+            return this.userRepository.save(request.body);
+        }
+        return {
+            message: "That user is already exist"
+        };
     }
 
     // get user's dialogs
