@@ -40,10 +40,10 @@ Steps to run this project:
 - добавить нового пользователя (<ins>Не требуется авторизация</ins>):
   - **POST** /users  
   ```JSON
-  name - string
-  phone - string
-  picture - string
-  password - string
+  name - string (max length is 255 chars)
+  phone - string (max length is 255 chars)
+  picture - string (max length is 255 chars)
+  password - string (max length is 255 chars)
 
   REQUEST BODY
 
@@ -78,7 +78,7 @@ Steps to run this project:
 - отправить сообщение по id диалога
   - **POST** /dialogs/:id
   ```JSON
-  message - string
+  message - string (max length is 255 chars)
   userId - integer
 
   REQUEST BODY
