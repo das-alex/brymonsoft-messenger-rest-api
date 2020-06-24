@@ -10,7 +10,7 @@ export class AuthMiddleware {
             } else if (path === "/users" && methods.post) {
                 next();
             } else {
-                const getToken = request.headers.authorization;
+                const getToken = request.headers.authorization.split(' ')[1];
                 const verify = jwt.verify(getToken, "secretkey");
                 request.userData = verify;
                 next();
