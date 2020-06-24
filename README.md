@@ -6,11 +6,15 @@ Steps to run this project:
 
 1. Run `npm i` command
 2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+3. Run `npm start` command  
 
-REST api definition:
--
-### **Пользователи:**
+## REST api definition:
+
+### Необходимые заголовки:
+- **Content-Type: application/json**  
+- **Authorization: Bearer s0m3Bearer7oken**
+
+### **Пользователи (/users):**
 - списоĸ пользователей:
   - **GET** /users - Все пользователи
   - **GET** /users/byName/:name - Все пользователи с определенным именем, где **:name** - [mysql паттерн](https://dev.mysql.com/doc/refman/5.7/en/pattern-matching.html). Символы должны быть экранированы (Пример: /users/byName/user%25 => LIKE 'user%')
@@ -20,20 +24,28 @@ REST api definition:
   - **GET** /users/:id - Получить пользователя по id
 - получить все диалоги пользователя
   - **GET** /users/:id/dialogs
-- аутентификации пользователя:
+- аутентификации пользователя (<span style="color: green">Не требуется авторизация</span>):
   - **POST** /users/auth - Получить токен по имени и паролю  
   ```JSON
-  BODY
+  name - string
+  password - string
+
+  REQUEST BODY
 
   {
     "name": "userName",
     "password": "password"
   }
   ```
-- добавить нового пользователя:
+- добавить нового пользователя (<span style="color: green">Не требуется авторизация</span>):
   - **POST** /users  
   ```JSON
-  BODY
+  name - string
+  phone - string
+  picture - string
+  password - string
+
+  REQUEST BODY
 
   {
     "name": "userName",
@@ -45,7 +57,7 @@ REST api definition:
 - удалить пользователя:
   - **DELETE** /users/:id
 
-### **Диалоги:**
+### **Диалоги (/dialogs):**
 - открыть диалог/получить все сообщения диалога
   - **GET** /dialogs/:id - все сообщения по id выбранного диалога
 - получить последнее сообщение для диалога по его id
@@ -53,17 +65,23 @@ REST api definition:
 - создать диалог
   - **POST** /dialogs  
   ```JSON
-  BODY
+  userOne - integer
+  userTwo - integer
+
+  REQUEST BODY
 
   {
-    "userOne": "userOneId",
-    "userTwo": "userTwoId"
+    "userOne": 1,
+    "userTwo": 2
   }
   ```
 - отправить сообщение по id диалога
   - **POST** /dialogs/:id
   ```JSON
-  BODY
+  message - string
+  userId - integer
+
+  REQUEST BODY
 
   {
     "message": "hello, dear",
@@ -74,11 +92,15 @@ REST api definition:
 - удалить диалог
   - **DELETE** /dialogs/:id
 
-### **Сообщения**
+### **Сообщения (/messages):**
 - обновить сообщение
   - **POST** /messages/:id
   ```JSON
-  BODY
+  delivered - boolean
+  seen - boolean
+  message - string (max length is 255 chars)
+
+  REQUEST BODY
 
   {
     "delivered": true/false,
@@ -88,3 +110,5 @@ REST api definition:
   ```
 - удалить сообщение
   - **DELETE** /messages/:id
+
+## Response statuses:
