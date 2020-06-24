@@ -24,7 +24,7 @@ Steps to run this project:
   - **GET** /users/:id - Получить пользователя по id
 - получить все диалоги пользователя
   - **GET** /users/:id/dialogs
-- аутентификации пользователя (<span style="color: green">Не требуется авторизация</span>):
+- аутентификации пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
   - **POST** /users/auth - Получить токен по имени и паролю  
   ```JSON
   name - string
@@ -37,7 +37,7 @@ Steps to run this project:
     "password": "password"
   }
   ```
-- добавить нового пользователя (<span style="color: green">Не требуется авторизация</span>):
+- добавить нового пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
   - **POST** /users  
   ```JSON
   name - string
