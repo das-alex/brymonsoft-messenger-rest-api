@@ -64,15 +64,30 @@ export class UserController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const isExistUser = await this.userRepository.findOne({
-            name: request.body.name
-        });
+        const {name, phone, picture, password} = request.body;
+
+        const isExistUser = await this.userRepository.findOne({name});
         if (isExistUser !== undefined) {
             return {
                 message: "That user is already exist"
             };
         }
         const self = this;
+        const check = {
+            isAllParams: Object.keys(request.body).length === 4,
+            get isNotEmpty() {
+                return this.name && this.phone && this.picture && this.password;
+            },
+            name: name !== "",
+            phone: phone !== "",
+            picture: picture !== "",
+            password: password !== "" 
+        };
+        if (check.isAllParams === false || check.isNotEmpty === false) {
+            return {
+                message: "Please, specify all required params"
+            };
+        }
         await bcrypt.hash(request.body.password, 10).then(function(hash) {
             self.userRepository.save({
                 name: request.body.name,
