@@ -24,7 +24,7 @@ Steps to run this project:
   - **GET** /users/:id - Получить пользователя по id
 - получить все диалоги пользователя
   - **GET** /users/:id/dialogs
-- аутентификации пользователя (<span style="color: green">Не требуется авторизация</span>):
+- аутентификации пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
   - **POST** /users/auth - Получить токен по имени и паролю  
   ```JSON
   name - string
@@ -37,13 +37,13 @@ Steps to run this project:
     "password": "password"
   }
   ```
-- добавить нового пользователя (<span style="color: green">Не требуется авторизация</span>):
+- добавить нового пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
   - **POST** /users  
   ```JSON
-  name - string
-  phone - string
-  picture - string
-  password - string
+  name - string (max length is 255 chars)
+  phone - string (max length is 255 chars)
+  picture - string (max length is 255 chars)
+  password - string (max length is 255 chars)
 
   REQUEST BODY
 
@@ -78,7 +78,7 @@ Steps to run this project:
 - отправить сообщение по id диалога
   - **POST** /dialogs/:id
   ```JSON
-  message - string
+  message - string (max length is 255 chars)
   userId - integer
 
   REQUEST BODY
