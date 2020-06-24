@@ -72,13 +72,20 @@ export class UserController {
                 message: "That user is already exist"
             };
         }
-        // const hash = bcrypt.hashSync(request.body.password, 10);
-        // return this.userRepository.save({
-        //     name: request.body.name,
-        //     phone: request.body.phone,
-        //     picture: request.body.picture,
-        //     password: hash
-        // });
+        const self = this;
+        await bcrypt.hash(request.body.password, 10).then(function(hash) {
+            self.userRepository.save({
+                name: request.body.name,
+                phone: request.body.phone,
+                picture: request.body.picture,
+                password: hash
+            });
+        });
+        return {
+            name: request.body.name,
+            phone: request.body.phone,
+            picture: request.body.picture,
+        };
     }
 
     // get user's dialogs
