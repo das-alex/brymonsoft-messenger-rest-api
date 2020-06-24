@@ -24,7 +24,7 @@ Steps to run this project:
   - **GET** /users/:id - Получить пользователя по id
 - получить все диалоги пользователя
   - **GET** /users/:id/dialogs
-- аутентификации пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
+- аутентификации пользователя (<ins>Не требуется авторизация</ins>):
   - **POST** /users/auth - Получить токен по имени и паролю  
   ```JSON
   name - string
@@ -37,7 +37,7 @@ Steps to run this project:
     "password": "password"
   }
   ```
-- добавить нового пользователя (```html <span style="color: green">Не требуется авторизация</span>```):
+- добавить нового пользователя (<ins>Не требуется авторизация</ins>):
   - **POST** /users  
   ```JSON
   name - string
@@ -112,3 +112,10 @@ Steps to run this project:
   - **DELETE** /messages/:id
 
 ## Response statuses:
+- 200 OK
+  - Ответ может содержать 'message' в случае возникновения ошибки в запросе
+- 401 Unauthorized - нет доступа к данному роуту, решение:
+  - Пользователь должен существовать
+  - Получить токен (аутентификации пользователя)
+  - Указать заголовок (Authorization: Bearer ....)
+- 404 Not found
